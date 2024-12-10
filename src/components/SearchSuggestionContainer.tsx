@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Suggesion from "../components/SearchSuggestion";
 import "../styles/SearchSuggestionContainer.css";
 import axios from "axios";
+import { useAppContext } from "../context/ContextProvider";
 
 interface SearchSuggestionContainerProps {
-  searchContent: string;
+  suggestions: string[];
+  setSuggestions: React.Dispatch<React.SetStateAction<string[]>>;
+  focusedIndex: number;
+  onSearch: () => void;
 }
 
 interface SearchSuggestionData {
@@ -13,16 +17,24 @@ interface SearchSuggestionData {
 }
 
 const SearchSuggestionContainer: React.FC<SearchSuggestionContainerProps> = ({
-  searchContent,
+  suggestions,
+  setSuggestions,
+  focusedIndex,
+  onSearch,
 }) => {
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
   const [data, setData] = useState<SearchSuggestionData>({
     stemmedQueryTerm: "",
     suggestions: [],
   });
+  const { searchContent, setSearchContent } = useAppContext();
+
+  const suggestionRefs = useRef<Array<HTMLLIElement | null>>([]);
   useEffect(() => {
-    if (searchContent.length > 2) {
+    if (focusedIndex != -1) {
+    } else if (searchContent.length > 2) {
       if (debounceTimeout) {
         clearTimeout(debounceTimeout);
       }
@@ -47,9 +59,9 @@ const SearchSuggestionContainer: React.FC<SearchSuggestionContainerProps> = ({
           .catch((err) => {
             console.error("Error fetching suggestions", err);
           });
-      }, 500); 
+      }, 500);
 
-      setDebounceTimeout(timeout); 
+      setDebounceTimeout(timeout);
     } else {
       setSuggestions([]);
     }
@@ -59,13 +71,29 @@ const SearchSuggestionContainer: React.FC<SearchSuggestionContainerProps> = ({
         clearTimeout(debounceTimeout);
       }
     };
-  }, [searchContent]); 
+  }, [searchContent]);
 
   return (
     <div className="search-suggestion-container">
       <ul className="suggestion-list">
         {suggestions.map((s, index) => (
-          <li key={index}>
+          <li
+            className="suggestion-item"
+            key={index}
+            onClick={(event) => {
+              onSearch();
+              setSearchContent(s);
+              setSuggestions([]);
+            }}
+            style={{
+              backgroundColor: focusedIndex === index ? "#ddd" : "transparent",
+              padding: "5px",
+              cursor: "pointer",
+            }}
+            ref={(el) => {
+              suggestionRefs.current[index] = el;
+            }}
+          >
             <Suggesion content={s} highlight={searchContent} />
           </li>
         ))}

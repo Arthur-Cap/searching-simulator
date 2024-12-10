@@ -14,5 +14,13 @@
   padding: 0;
   margin: 0;
   left: 0;
-  margin-left: 20px;
+  margin-left: 0;
+}
+
+.suggestion-item {
+  list-style: none;
+  padding-left: 20px !important;
+  margin: 0;
+  left: 0;
+  margin-left: 0;
 }
