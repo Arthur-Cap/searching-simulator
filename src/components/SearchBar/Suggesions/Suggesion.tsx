@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/SearchSuggestion.css';
+import './Suggesions.css';
 
 interface SuggesionProps {
   content: string;

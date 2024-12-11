@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import Suggesion from "../components/SearchSuggestion";
-import "../styles/SearchSuggestionContainer.css";
-import axios from "axios";
-import { useAppContext } from "../context/ContextProvider";
+import Suggesion from "./Suggesion";
+import axiosInstance from "../../../configs/axiosConfig";
+import { useAppContext } from "../../../context/ContextProvider";
+import { QUERY_SUGGESTIONS_URL } from "../../../constants/constant";
 
 interface SearchSuggestionContainerProps {
   suggestions: string[];
@@ -40,10 +40,8 @@ const SearchSuggestionContainer: React.FC<SearchSuggestionContainerProps> = ({
       }
 
       const timeout = setTimeout(() => {
-        axios
-          .get(
-            "https://gist.githubusercontent.com/yuhong90/b5544baebde4bfe9fe2d12e8e5502cbf/raw/e026dab444155edf2f52122aefbb80347c68de86/suggestion.json"
-          )
+        axiosInstance
+          .get(QUERY_SUGGESTIONS_URL)
           .then((response) => {
             setData(response.data);
             if (

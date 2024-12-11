@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Search from "./pages/Search";
+import Search from "./pages/SearchPage";
 import { AppProvider } from "./context/ContextProvider";
 
 const App: React.FC = () => {

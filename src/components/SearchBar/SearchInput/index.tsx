@@ -1,16 +1,13 @@
 import React, { useState, useEffect} from 'react';
-import SearchSuggestionContainer from './SearchSuggestionContainer';
-import '../styles/SearchInputContainer.css';
-import { useAppContext } from '../context/ContextProvider';
+import './SearchInput.css';
+import { useAppContext } from '../../../context/ContextProvider';
 
 interface SearchInputProps {
   onSearch: () => void; 
 }
 
 const SearchInputContainer: React.FC<SearchInputProps> = ({ onSearch }) => {
-  const {searchContent, setSearchContent} = useAppContext();
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [focusedIndex, setFocusedIndex] = useState<number>(-1);
+  const {searchContent, setSearchContent, suggestions, setSuggestions, focusedIndex, setFocusedIndex} = useAppContext();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchContent(event.target.value);
@@ -51,7 +48,6 @@ const SearchInputContainer: React.FC<SearchInputProps> = ({ onSearch }) => {
         onChange={handleInputChange} 
         onKeyDown={handleKeyDown}
       />
-      <SearchSuggestionContainer suggestions={suggestions} setSuggestions = {setSuggestions} focusedIndex={focusedIndex} onSearch={onSearch} />
     </div>
   );
 };

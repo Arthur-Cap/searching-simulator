@@ -4,6 +4,7 @@
   width: 100%;
   height: 56px;
   display: flex;
+  position: relative;
 }
 .search-button {
   width: 160px;

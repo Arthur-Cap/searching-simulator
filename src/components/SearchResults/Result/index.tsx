@@ -1,8 +1,10 @@
 import React from "react";
-import "../styles/SearchResult.css";
-import { DocumentItem, HighlightedText } from "../interface/SearchResult";
+import './Result.css';
+import { DocumentItem, HighlightedText } from "../../../interfaces/SearchResult";
 
-const SearchResult: React.FC<{ documentItem: DocumentItem }> = ({ documentItem }) => {
+const SearchResult: React.FC<{ documentItem: DocumentItem }> = ({
+  documentItem,
+}) => {
   const { DocumentTitle, DocumentExcerpt, DocumentURI } = documentItem;
 
   const renderHighlightedText = (rawContent: HighlightedText) => {
