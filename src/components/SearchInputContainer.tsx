@@ -24,7 +24,13 @@ const SearchInputContainer: React.FC<SearchInputProps> = ({ onSearch }) => {
       setFocusedIndex((prevIndex) =>
         prevIndex <= 0 ? suggestions.length - 1 : prevIndex - 1
       );
-    } else if (e.key === 'Enter' && focusedIndex >= 0) {
+    } 
+    else if (e.key === 'Enter' && focusedIndex ===-1) {
+      setFocusedIndex(-1);
+      onSearch();
+      setSuggestions([]);
+    }
+    else if (e.key === 'Enter' && focusedIndex >= 0) {
       setSearchContent(suggestions[focusedIndex]);
       setFocusedIndex(-1);
       onSearch();
